@@ -5,7 +5,7 @@ python mastodon AI chatbot that uses the gemini API that's really bad and i made
 
 # how can i do it help help me wahh im criyn help
 
-you technically need to run 2 scripts at the same time, main.py and danbooru.py for the yaoi mode. dont ask why. i should make it a toggle probably idk im too fucking lazy
+you technically need to run 2 scripts at the same time, main.py and danbooru.py for the yaoi mode. dont ask why. i should make it a toggle or put them in the same script probably idk im too fucking lazy
 
 ## main.py
 you need to set up your envs. if youre too lazy just edit the code to hardcode them in no one cares its 2025 you can do anything you want
