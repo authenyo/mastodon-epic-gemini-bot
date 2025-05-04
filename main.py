@@ -489,7 +489,7 @@ def main():
                 # Determine reply visibility: convert any public to unlisted
                 reply_visibility = "unlisted" if status.visibility == "public" else status.visibility
                 media_ids = []
-                    if user_acct in yaoi_mode_users:
+                if user_acct in yaoi_mode_users:
                         print(f"Adding yaoi mode image for @{user_acct}")
                         media = upload_image("/home/authen/image.png")
                         media_ids = [m.id for m in media]
@@ -501,8 +501,8 @@ def main():
                     media_ids=media_ids,
                     visibility=reply_visibility
                 )
-                    print("Reply posted successfully")
-                else:
+                print("Reply posted successfully")
+            else:
                     print("No reply generated")
             
             # Wait before next poll
