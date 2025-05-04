@@ -16,15 +16,15 @@ import json
 # Configuration
 TARGET_FILE = "./image.png"
 UPDATE_INTERVAL = 30  # seconds
-TAGS = "yaoi rating:safe"
+TAGS = "yaoi rating:general"
 MAX_RETRIES = 3
 BACKOFF_TIME = 5  # seconds
 
 # Danbooru API configuration
 # You can optionally set these to your account credentials
 # for higher API limits
-API_KEY = ""  # Your API key
-USERNAME = ""  # Your username
+API_KEY = os.getenv("DANBOORU_API_KEY")  # Your API key
+USERNAME = os.getenv("DANBOORU_USERNAME")  # Your username
 BASE_URL = "https://danbooru.donmai.us"
 
 def get_auth_params():

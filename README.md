@@ -21,7 +21,7 @@ optional but if you want to change them go ahead:
 
 ## danbooru.py
 
-go in the code and edit these variables
+set your envs
 
 - API_KEY, danbooru api key self-explanatory
 - USERNAME,  your danbooru username

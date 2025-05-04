@@ -486,18 +486,21 @@ def main():
                 # Post reply if we got one
                 if reply:
                     media_ids = []
+                # Determine reply visibility: convert any public to unlisted
+                reply_visibility = "unlisted" if status.visibility == "public" else status.visibility
+                media_ids = []
                     if user_acct in yaoi_mode_users:
                         print(f"Adding yaoi mode image for @{user_acct}")
                         media = upload_image("/home/authen/image.png")
                         media_ids = [m.id for m in media]
                     
-                    print(f"Posting reply: {reply[:50]}...")
-                    mastodon.status_post(
-                        status=f"@{user_acct} {reply}",
-                        in_reply_to_id=status.id,
-                        media_ids=media_ids,
-                        visibility=status.visibility
-                    )
+                print(f"Posting reply (visibility={reply_visibility}): {reply[:50]}...")
+                mastodon.status_post(
+                    status=f"@{user_acct} {reply}",
+                    in_reply_to_id=status.id,
+                    media_ids=media_ids,
+                    visibility=reply_visibility
+                )
                     print("Reply posted successfully")
                 else:
                     print("No reply generated")
