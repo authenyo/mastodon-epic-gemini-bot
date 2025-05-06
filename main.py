@@ -441,7 +441,7 @@ def main():
                 if "enable yaoi mode" in content_text:
                     yaoi_mode_users.add(user_acct)
                     save_yaoi_mode_users(yaoi_mode_users)
-                    media = upload_image("/home/authen/image.png")
+                    media = upload_image("./image.png")
                     mastodon.status_post(
                         status=f"@{user_acct} Yaoi mode enabled just for you. 🌸",
                         media_ids=[m.id for m in media],
@@ -492,7 +492,7 @@ def main():
                 media_ids = []
                 if user_acct in yaoi_mode_users:
                         print(f"Adding yaoi mode image for @{user_acct}")
-                        media = upload_image("/home/authen/image.png")
+                        media = upload_image("./image.png")
                         media_ids = [m.id for m in media]
                     
                 print(f"Posting reply (visibility={reply_visibility}): {reply[:50]}...")
