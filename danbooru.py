@@ -9,9 +9,13 @@ import os
 import time
 import random
 import requests
+from dotenv import load_dotenv
 from PIL import Image
 from io import BytesIO
 import json
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Configuration
 TARGET_FILE = "./image.png"
@@ -21,8 +25,7 @@ MAX_RETRIES = 3
 BACKOFF_TIME = 5  # seconds
 
 # Danbooru API configuration
-# You can optionally set these to your account credentials
-# for higher API limits
+# You can optionally set these in your .env file
 API_KEY = os.getenv("DANBOORU_API_KEY")  # Your API key
 USERNAME = os.getenv("DANBOORU_USERNAME")  # Your username
 BASE_URL = "https://danbooru.donmai.us"

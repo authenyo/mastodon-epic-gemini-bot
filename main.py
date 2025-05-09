@@ -4,9 +4,13 @@ import time
 import html
 import json
 import requests
+from dotenv import load_dotenv
 from mastodon import Mastodon, MastodonError
 from google import genai
 from google.genai import types
+
+# Load environment variables from .env file
+load_dotenv()
 
 # --- Config ---
 MASTODON_BASE_URL = os.getenv("MASTODON_BASE_URL", "https://brain.worm.pink")
