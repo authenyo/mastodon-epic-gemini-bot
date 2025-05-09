@@ -1,6 +1,6 @@
 <p><h1>mastodon-epic-gemini-bot, aka clod</h1>
-<img src="https://4get.authenyo.xyz/proxy?i=https%3A%2F%2Fmedia.tenor.com%2FlJa1KnY6quwAAAAM%2Fnettspend-drankdrankdrank.gif"></p>
-<img src="https://files.catbox.moe/ut9vn3.jpg">
+<img src="https://4get.authenyo.xyz/proxy?i=https%3A%2F%2Fmedia.tenor.com%2FlJa1KnY6quwAAAAM%2Fnettspend-drankdrankdrank.gif" align="right"></p>
+<center><img src="https://files.catbox.moe/ut9vn3.jpg"></center>
 
 Python Mastodon AI chatbot that uses the Gemini API that's really bad and I made with ChatGPT. It sucks but it's really funny. Used for the best AI assistant ever, [clod](https://brain.worm.pink/clod).
 
