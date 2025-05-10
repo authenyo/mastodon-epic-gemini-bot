@@ -49,87 +49,6 @@ def save_yaoi_mode_users(users: set):
 
 yaoi_mode_users = load_yaoi_mode_users()
 
-# --- Function declarations for Gemini ---
-# Define all the function capabilities we want to expose to Gemini
-get_profile_function = {
-    "name": "get_profile",
-    "description": "Gets the profile information for a Mastodon user by their account name.",
-    "parameters": {
-        "type": "object",
-        "properties": {
-            "acct": {
-                "type": "string",
-                "description": "The account name of the user (e.g. 'username' or 'username@instance')"
-            }
-        },
-        "required": ["acct"]
-    }
-}
-
-get_post_function = {
-    "name": "get_post",
-    "description": "Retrieves a specific post (gort) from Mastodon by its ID.",
-    "parameters": {
-        "type": "object",
-        "properties": {
-            "id": {
-                "type": "string",
-                "description": "The numeric ID of the post to retrieve"
-            }
-        },
-        "required": ["id"]
-    }
-}
-
-get_thread_function = {
-    "name": "get_thread",
-    "description": "Retrieves the thread context (ancestors and descendants) for a given post ID.",
-    "parameters": {
-        "type": "object",
-        "properties": {
-            "id": {
-                "type": "string",
-                "description": "The numeric ID of the post to get the thread context for"
-            }
-        },
-        "required": ["id"]
-    }
-}
-
-fetch_url_function = {
-    "name": "fetch_url",
-    "description": "Fetches the content of a URL and returns the text. Useful for retrieving web page content.",
-    "parameters": {
-        "type": "object",
-        "properties": {
-            "url": {
-                "type": "string",
-                "description": "The URL to fetch content from"
-            }
-        },
-        "required": ["url"]
-    }
-}
-
-search_posts_function = {
-    "name": "search_posts",
-    "description": "Searches for posts (gorts) containing specific hashtags or text.",
-    "parameters": {
-        "type": "object",
-        "properties": {
-            "query": {
-                "type": "string",
-                "description": "The search query text or hashtag"
-            },
-            "limit": {
-                "type": "integer",
-                "description": "Maximum number of results to return (default: 5)"
-            }
-        },
-        "required": ["query"]
-    }
-}
-
 # --- Mastodon helper functions ---
 def get_profile(acct: str) -> dict:
     """Gets user profile information."""
@@ -279,6 +198,9 @@ def build_conversation(status, bot_acct):
     for ancestor in context['ancestors']:
         author = ancestor.account.acct
         text = clean_content(ancestor.content, bot_acct)
+        if author != status.account.acct:
+            convo.append("(first posts hidden because they're from other accounts)")
+            break
         convo.append(f"{author}: {text}")
     
     # Add current message
@@ -316,19 +238,9 @@ def generate_reply(prompt: str, image_urls: list[str] = None) -> str:
     # Add the user prompt
     contents.append(types.Content(role="user", parts=[types.Part(text=prompt)]))
     
-    # Set up function declarations as tools
-    tools = [
-        types.Tool(function_declarations=[get_profile_function]),
-        types.Tool(function_declarations=[get_post_function]),
-        types.Tool(function_declarations=[get_thread_function]),
-        types.Tool(function_declarations=[fetch_url_function]),
-        types.Tool(function_declarations=[search_posts_function])
-    ]
-    
     # Create config with system instruction and tools
     config = types.GenerateContentConfig(
         system_instruction=SYSTEM_INSTRUCTION,
-        tools=tools
     )
     
     # Initial call to the model
@@ -341,68 +253,10 @@ def generate_reply(prompt: str, image_urls: list[str] = None) -> str:
     # Check if the response contains a function call
     part = response.candidates[0].content.parts[0]
     if hasattr(part, 'function_call') and part.function_call:
-        return handle_function_call(part.function_call, contents, config)
+        print("(shouldn't happen!)")
     else:
         # Direct text response
         return part.text.strip()
-
-def handle_function_call(function_call, contents, config, max_calls=3):
-    """Handles function calls from Gemini, possibly with multiple rounds."""
-    calls_made = 0
-    current_contents = contents.copy()
-    
-    while calls_made < max_calls:
-        calls_made += 1
-        
-        # Extract function name and arguments
-        fn_name = function_call.name
-        fn_args = {}
-        if hasattr(function_call, 'args'):
-            if isinstance(function_call.args, dict):
-                fn_args = function_call.args
-            else:
-                # Parse JSON string if necessary
-                fn_args = json.loads(function_call.args)
-        
-        print(f"Function call: {fn_name} with args: {fn_args}")
-        
-        # Execute the function
-        result = None
-        if fn_name == "get_profile":
-            result = get_profile(**fn_args)
-        elif fn_name == "get_post":
-            result = get_post(**fn_args)
-        elif fn_name == "get_thread":
-            result = get_thread(**fn_args)
-        elif fn_name == "fetch_url":
-            result = fetch_url(**fn_args)
-        elif fn_name == "search_posts":
-            result = search_posts(**fn_args)
-        else:
-            result = {"error": f"Unknown function: {fn_name}"}
-        
-        # Add function call and response to the conversation
-        current_contents.append(types.Content(role="assistant", parts=[types.Part(function_call=function_call)]))
-        current_contents.append(types.Content(role="function", parts=[types.Part.from_function_response(name=fn_name, response=result)]))
-        
-        # Get final or next response from model
-        final_response = genai_client.models.generate_content(
-            model=GEMINI_MODEL,
-            contents=current_contents,
-            config=config
-        )
-        
-        # Check if there's another function call or a final text response
-        part = final_response.candidates[0].content.parts[0]
-        if hasattr(part, 'function_call') and part.function_call:
-            # Another function call is needed
-            function_call = part.function_call
-        else:
-            # We have a text response, return it
-            return part.text.strip()
-    
-    # If we hit the max function calls limit, just return what we got
-    return "I've gathered some information but reached my function call limit. Here's what I found: " + final_response.text.strip()
 
 # --- Main loop ---
 def main():
