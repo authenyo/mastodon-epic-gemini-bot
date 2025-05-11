@@ -20,7 +20,16 @@ pip install -r requirements.txt
 cp .env-example .env
 ```
 
+3. Run both `main.py` and `danbooru.py` at the same time. You can use `screen` for this.
+```
+python main.py
+```
+```
+python danbooru.py
+```
 ## Configuration
+
+### main.py
 
 Edit the `.env` file with your own settings:
 - MASTODON_BASE_URL, the instance where your bot is
@@ -31,13 +40,7 @@ optional but if you want to change them go ahead:
 - GEMINI_MODEL, any of [these models](https://ai.google.dev/gemini-api/docs/models) that output text, i just use gemini 2.0 flash lite idk if the rest works
 - SYSTEM_INSTRUCTION, self explanatory the prompt that the bot uses
 
-## For yaoi mode (danbooru.py)
-
-Set these in your `.env` file:
+### For yaoi mode (danbooru.py)
 
 - DANBOORU_API_KEY, danbooru api key self-explanatory
 - DANBOORU_USERNAME, your danbooru username
-
-## now what
-
-Run both of these at the same time. Use screen or tmux or whatever.
