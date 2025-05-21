@@ -3,3 +3,4 @@ yaoi_mode_users.json
 .env
 __pycache__/
 *.py[cod]
+.venv
