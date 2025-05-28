@@ -4,15 +4,15 @@
 
 LLM Mastodon bot that uses either the Gemini API or the OpenAI API. It also has yaoi mode. Talk to it [here](https://brain.worm.pink/clod) (default prompt a little unhinged, may be offensive).
 
-# Features
-- yaoi mode: scrapes a random image from Danbooru and attaches it to every response for a certain user.
-- image understanding: if you mention the bot with a image attached it will download the image and send it over to the LLM. (may not work in the OpenAI api idk)
-- function calling: it can fetch the thread for context, search posts, fetch profiles and urls.
-- it's awesome. very awesome
-
-# how can i do it help help me wahh im criyn help
-
-you technically need to run 2 scripts at the same time, main.py and danbooru.py for the yaoi mode. dont ask why. i should make it a toggle or put them in the same script probably idk im too fucking lazy
+# ✨ Features
+- **yaoi mode**
+Scrapes a random image from Danbooru and attaches it to every response for a user, enable by mentioning the bot and typing "enable yaoi mode".
+- **image understanding** 
+if you mention the bot with a image attached it will download the image and send it over to the LLM. (may not work in the OpenAI api idk)
+- **function calling** 
+it can fetch the thread for context, search posts, fetch profiles and urls.
+- **it's awesome.** 
+very awesome
 
 ## Installation
 
