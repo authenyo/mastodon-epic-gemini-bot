@@ -3,3 +3,4 @@ requests
 mastodon.py
 pillow
 google-genai
+openai
