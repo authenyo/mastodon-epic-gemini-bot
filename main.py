@@ -311,7 +311,7 @@ def fetch_url(url: str) -> dict:
     """Fetches content from a URL."""
     try:
         headers = {
-            "User-Agent": "WormPink Mastodon Bot/1.0"
+            "User-Agent": "mastodon-epic-gemini-bot/1.0"
         }
         response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
