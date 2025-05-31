@@ -4,6 +4,7 @@ import time
 import html
 import json
 import requests
+import argparse
 from dotenv import load_dotenv
 from mastodon import Mastodon, MastodonError
 from google import genai
@@ -631,12 +632,60 @@ def generate_reply(prompt: str, image_urls: list[str] = None) -> str:
     else:
         raise ValueError(f"Unknown AI provider: {AI_PROVIDER}")
 
-# --- Main loop ---
+def post_yaoi_of_the_day():
+    """Posts a single yaoi-of-the-day post with the image."""
+    print("Posting yaoi-of-the-day...")
+    
+    # Generate a prompt for the AI
+    prompt = "start your response with 'yaoi of the day:' and then write 3-5 sentences about the image in character. keep it brief and fun!"
+    
+    # Get the image
+    image_path = "./image.png"
+    if not os.path.exists(image_path):
+        print(f"Error: {image_path} not found!")
+        return
+    
+    # Upload the image
+    media = upload_image(image_path)
+    if not media:
+        print("Failed to upload image")
+        return
+    
+    # Generate reply with AI
+    print(f"Generating reply with {AI_PROVIDER.upper()}...")
+    # Pass the local file path directly instead of trying to use it as a URL
+    reply = generate_reply(prompt)
+    
+    if reply:
+        # Post the yaoi-of-the-day
+        print(f"Posting yaoi-of-the-day: {reply[:50]}...")
+        mastodon.status_post(
+            status=reply,
+            media_ids=[m.id for m in media],
+            visibility="unlisted"  # Using unlisted visibility for yaoi-of-the-day
+        )
+        print("Yaoi-of-the-day posted successfully!")
+    else:
+        print("No reply generated for yaoi-of-the-day")
+
 def main():
-    print("Starting Mastodon AI bot...")
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(description='Mastodon AI Bot')
+    parser.add_argument('--yaoi-of-the-day', action='store_true', help='Post a single yaoi-of-the-day post')
+    args = parser.parse_args()
+    
+    # Initialize Mastodon client
     me = mastodon.account_verify_credentials()
     bot_acct = me.acct
     print(f"Bot account: @{bot_acct}")
+    
+    # If yaoi-of-the-day mode is enabled, post once and exit
+    if args.yaoi_of_the_day:
+        post_yaoi_of_the_day()
+        return
+    
+    # Normal bot operation continues here...
+    print("Starting Mastodon AI bot in normal mode...")
     
     # Get the most recent notification to establish baseline
     initial = mastodon.notifications(types=["mention"], limit=1)
