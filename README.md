@@ -1,6 +1,12 @@
 <h1>mastodon-epic-gemini-bot, aka clod</h1>
 <img src="https://4get.authenyo.xyz/proxy?i=https%3A%2F%2Fmedia.tenor.com%2FlJa1KnY6quwAAAAM%2Fnettspend-drankdrankdrank.gif" align="right">
-<center><img src="https://files.catbox.moe/ut9vn3.jpg"></center>
+()[https://files.catbox.moe/ut9vn3.jpg]
+![GitHub commit activity](https://img.shields.io/github/commit-activity/t/authenyo/mastodon-epic-gemini-bot)
+![GitHub contributors](https://img.shields.io/github/contributors/authenyo/mastodon-epic-gemini-bot)
+![GitHub contributors](https://img.shields.io/github/contributors/authenyo/mastodon-epic-gemini-bot)
+![GitHub contributors](https://img.shields.io/github/contributors/authenyo/mastodon-epic-gemini-bot)
+![GitHub contributors](https://img.shields.io/github/contributors/authenyo/mastodon-epic-gemini-bot)
+![GitHub Created At](https://img.shields.io/github/created-at/authenyo/mastodon-epic-gemini-bot)
 
 LLM Mastodon bot that uses either the Gemini API or the OpenAI API. It also has yaoi mode. Talk to it [here](https://brain.worm.pink/clod) (default prompt a little unhinged, may be offensive).
 
